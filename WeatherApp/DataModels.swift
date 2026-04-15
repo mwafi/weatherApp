@@ -34,11 +34,10 @@ struct Current:Codable
     
 }
 
-enum IntervalUnit: String, Codable
-{
-enum IntervalUnit: String, Codable {
+
+enum IntervalUnit:String, Codable {
     case seconds
     case minutes
     case hours
 }
-}
+

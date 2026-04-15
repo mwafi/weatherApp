@@ -36,7 +36,9 @@ struct Current:Codable
 
 enum IntervalUnit: String, Codable
 {
-    case seconds = "seconds"
-    case minutes = "minutes"
-    case hours   = "hours"
+enum IntervalUnit: String, Codable {
+    case seconds
+    case minutes
+    case hours
+}
 }

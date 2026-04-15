@@ -22,7 +22,7 @@ struct WeatherResponse:Codable
 struct CurrentUnits:Codable
 {
     let time:String
-    let interval:String
+    let interval:IntervalUnit
     let temperature_2m:String
 }
 
@@ -30,6 +30,13 @@ struct Current:Codable
 {
     let time:Date
     let interval: Int
-    let temperatureـ2m: Double
+    let temperature_2m: Double
     
+}
+
+enum IntervalUnit: String, Codable
+{
+    case seconds = "seconds"
+    case minutes = "minutes"
+    case hours   = "hours"
 }

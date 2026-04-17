@@ -9,6 +9,19 @@ import UIKit
 
 final class HomeViewController: UIViewController {
 
+    @IBAction func notificationButtonTapped(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+
+            guard let vc = storyboard.instantiateViewController(
+                withIdentifier: "NotificationViewController"
+            ) as? NotificationViewController else {
+                return
+            }
+
+            vc.modalPresentationStyle = .overFullScreen
+            vc.modalTransitionStyle = .crossDissolve
+            present(vc, animated: true)
+    }
     @IBOutlet weak var cloudImageView: UIImageView!
     private let gradientLayer = CAGradientLayer()
 

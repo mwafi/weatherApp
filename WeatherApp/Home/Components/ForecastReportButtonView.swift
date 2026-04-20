@@ -10,7 +10,7 @@ import SwiftUI
 struct ForecastReportButtonView: View {
     var body: some View {
         Button {
-            print("Open forecast detail")
+            print("Open forecast report")
         } label: {
             HStack(spacing: 10) {
                 Text("Forecast report")
@@ -23,18 +23,16 @@ struct ForecastReportButtonView: View {
                     .frame(width: 24, height: 24)
                     .rotationEffect(.degrees(180))
             }
-            .padding(.horizontal, 28)
-            .frame(width: 220, height: 62)
+            .frame(width: 170, height: 56)
             .background(
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(Color.white)
-                    .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 6)
+                RoundedRectangle(cornerRadius: 18)
+                    .fill(Color.white.opacity(0.96))
+                    .shadow(color: .black.opacity(0.10), radius: 10, x: 0, y: 6)
             )
         }
         .buttonStyle(.plain)
     }
 }
-
 #Preview {
     ForecastReportButtonView()
 }

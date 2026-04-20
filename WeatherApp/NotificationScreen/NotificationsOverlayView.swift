@@ -13,7 +13,8 @@ struct NotificationsOverlayView: View {
     var body: some View {
         ZStack(alignment: .bottom) {
 
-            Color.black.opacity(0.15)
+            Rectangle()
+                .fill(.ultraThinMaterial)
                 .ignoresSafeArea()
                 .onTapGesture {
                     withAnimation(.easeInOut(duration: 0.25)) {

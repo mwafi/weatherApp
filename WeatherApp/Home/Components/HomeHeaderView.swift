@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeHeaderView: View {
     
     var cityName: String = "Semarang"
+    @Binding var showNotifications: Bool
     
     var body: some View {
         HStack {
@@ -35,7 +36,9 @@ struct HomeHeaderView: View {
             Spacer()
             
             Button {
-                print("Open notifications")
+                withAnimation(.easeInOut(duration: 0.28)) {
+                                    showNotifications = true
+                                }
             } label: {
                 Image("Group 652")
                     .resizable()
@@ -48,5 +51,6 @@ struct HomeHeaderView: View {
     }
 }
 #Preview {
-    HomeHeaderView()
+    HomeHeaderView(showNotifications: .constant(false))
+        .background(Color.blue) // عشان تشوف الأيقونات البيضاء
 }

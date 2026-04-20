@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct HomeScreen: View {
+    @State private var showNotifications = false
     var body: some View {
         ZStack {
             HomeBackgroundView()
             
             VStack(spacing: 0) {
-                HomeHeaderView(cityName: "Semarang")
-                    .padding(.top, 18)
+                HomeHeaderView(cityName: "Semarang", showNotifications: $showNotifications)
+                                    .padding(.top, 18)
                 
                 Spacer()
                     .frame(height: 55)
@@ -24,13 +25,7 @@ struct HomeScreen: View {
                 Spacer()
                     .frame(height: 30)
                 
-                CurrentWeatherCardView(
-                    dateText: "Today, 12 September",
-                    temperatureText: "29°",
-                    conditionText: "Cloudy",
-                    windText: "10 km/h",
-                    humidityText: "54 %"
-                )
+                CurrentWeatherCardView()
                 
                 Spacer()
                     .frame(height: 100)
@@ -39,6 +34,10 @@ struct HomeScreen: View {
                 
                 Spacer()
             }
+            if showNotifications {
+                            NotificationsOverlayView(isPresented: $showNotifications)
+                                .transition(.move(edge: .bottom))                         .zIndex(1)
+                        }
         }
     }
 }

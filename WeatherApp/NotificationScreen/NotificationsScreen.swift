@@ -7,12 +7,29 @@
 
 import SwiftUI
 
-struct SwiftUIView: View {
+struct NotificationsScreen: View {
+    @State private var showNotifications = true
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+            LinearGradient(
+                colors: [
+                    Color.blue.opacity(0.7),
+                    Color.blue.opacity(0.5)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
+
+            if showNotifications {
+                NotificationsOverlayView(isPresented: $showNotifications)
+            }
+        }
     }
 }
 
 #Preview {
-    SwiftUIView()
+    NotificationsScreen()
 }
+

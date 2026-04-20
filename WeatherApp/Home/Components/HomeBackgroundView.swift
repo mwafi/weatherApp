@@ -11,6 +11,7 @@ struct HomeBackgroundView: View {
     var body: some View {
         ZStack
         {
+            
             LinearGradient(
         colors:
             [
@@ -20,6 +21,7 @@ struct HomeBackgroundView: View {
         startPoint: .top,
         endPoint: .bottom
     )
+            
             Image("Vector 12")
                     .resizable()
                     .scaledToFit()

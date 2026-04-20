@@ -8,11 +8,21 @@
 import SwiftUI
 
 struct WeatherIllustrationView: View {
+    let conditionName: String
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+            Image(conditionName)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 200, height: 200) 
+                .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 8)
+        }
+        .frame(maxWidth: .infinity)
     }
 }
 
 #Preview {
-    WeatherIllustrationView()
+    WeatherIllustrationView(conditionName: "Cloudy")
+    
 }

@@ -47,7 +47,7 @@ struct NotificationsSheetView: View {
                     )
 
                     NotificationItem(
-                        icon: "down",
+                        icon: "windy",
                         time: "2 days ago",
                         message: "Potential for rain today is 84%, don't forget to bring your umbrella.",
                         isNew: false

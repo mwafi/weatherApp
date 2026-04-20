@@ -19,20 +19,30 @@ struct CurrentWeatherCardView: View {
             
             Text(dateText)
                 .font(.system(size: 14, weight: .regular))
-                .foregroundColor(.white)
+                .foregroundColor(.white.opacity(0.95))
                 .padding(.top, 24)
             
             Text(temperatureText)
-                .font(.system(size: 82, weight: .light))
-                .foregroundColor(.white)
-                .shadow(color: .black.opacity(0.12), radius: 8, x: 0, y: 6)
+                .font(.system(size: 88, weight: .thin))
+                .foregroundStyle(
+                    LinearGradient(
+                        colors: [
+                            Color.white.opacity(0.98),
+                            Color.white.opacity(0.86)
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                )
+                .shadow(color: .white.opacity(0.12), radius: 1, x: 0, y: -1)
+                .shadow(color: .black.opacity(0.10), radius: 6, x: 0, y: 4)
                 .padding(.top, 10)
             
             Text(conditionText)
                 .font(.system(size: 18, weight: .semibold))
                 .foregroundColor(.white)
-                .shadow(color: .black.opacity(0.10), radius: 4, x: 0, y: 3)
-                .padding(.top, 10)
+                .shadow(color: .black.opacity(0.08), radius: 4, x: 0, y: 3)
+                .padding(.top, 8)
             
             VStack(spacing: 16) {
                 
@@ -52,7 +62,7 @@ struct CurrentWeatherCardView: View {
                     
                     Text("|")
                         .font(.system(size: 15, weight: .light))
-                        .foregroundColor(.white.opacity(0.75))
+                        .foregroundColor(.white.opacity(0.70))
                         .frame(width: 18, alignment: .center)
                     
                     Text(windText)
@@ -77,7 +87,7 @@ struct CurrentWeatherCardView: View {
                     
                     Text("|")
                         .font(.system(size: 15, weight: .light))
-                        .foregroundColor(.white.opacity(0.75))
+                        .foregroundColor(.white.opacity(0.70))
                         .frame(width: 18, alignment: .center)
                     
                     Text(humidityText)
@@ -88,26 +98,48 @@ struct CurrentWeatherCardView: View {
             }
             .frame(width: 170)
             .padding(.top, 28)
+           
             
             Spacer()
         }
-        .frame(width: 353, height: 335)
+        .frame(width: 300, height: 300)
         .background(
             ZStack {
                 RoundedRectangle(cornerRadius: 20)
-                    .fill(Color.white.opacity(0.12))
+                    .fill(Color.white.opacity(0.08))
                 
                 RoundedRectangle(cornerRadius: 20)
-                    .fill(.ultraThinMaterial.opacity(0.20))
+                    .fill(.ultraThinMaterial.opacity(0.22))
                 
                 RoundedRectangle(cornerRadius: 20)
-                    .stroke(Color.white.opacity(0.30), lineWidth: 1)
+                    .stroke(Color.white.opacity(0.26), lineWidth: 1)
+                
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(Color.white.opacity(0.08), lineWidth: 0.5)
+                    .blur(radius: 1)
             }
         )
         .clipShape(RoundedRectangle(cornerRadius: 20))
+        .shadow(
+            color: Color.black.opacity(0.06),
+            radius: 14,
+            x: 0,
+            y: 8
+        )
     }
 }
 
 #Preview {
+    ZStack {
+        LinearGradient(
+            colors: [
+                Color(red: 0.30, green: 0.72, blue: 0.93),
+                Color(red: 0.30, green: 0.54, blue: 0.98)
+            ],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+        .ignoresSafeArea()
+        
         CurrentWeatherCardView()
-    }
+    }}

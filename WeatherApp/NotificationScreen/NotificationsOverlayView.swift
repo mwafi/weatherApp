@@ -8,11 +8,26 @@
 import SwiftUI
 
 struct NotificationsOverlayView: View {
+    @Binding var isPresented: Bool
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack(alignment: .bottom) {
+
+            Color.black.opacity(0.15)
+                .ignoresSafeArea()
+                .onTapGesture {
+                    withAnimation(.easeInOut(duration: 0.25)) {
+                        isPresented = false
+                    }
+                }
+
+            NotificationsSheetView()
+                .transition(.move(edge: .bottom))
+        }
+        .ignoresSafeArea()
     }
 }
 
 #Preview {
-    NotificationsOverlayView()
+    NotificationsOverlayView(isPresented: .constant(true))
 }

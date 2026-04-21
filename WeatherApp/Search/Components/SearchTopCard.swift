@@ -20,14 +20,15 @@ struct SearchTopCard: View {
                     .foregroundColor(Color(red: 0.29, green: 0.35, blue: 0.53))
 
                 VStack(spacing: 28) {
-                    ForEach(Array(recentSearches.enumerated()), id: \.offset) { _, item in
+                    ForEach(recentSearches, id: \.city) { item in
                         Button(action: {
-                                                    
-                            searchText = item.city
+                            withAnimation(.spring()) { searchText = item.city
+                            }
                         }) {
                             RecentSearchRow()
                         }
-                        .buttonStyle(PlainButtonStyle())                     }
+                        .buttonStyle(PlainButtonStyle())
+                    }
                 }
             }
         }
@@ -36,12 +37,10 @@ struct SearchTopCard: View {
         .padding(.bottom, 34)
         .background(
             RoundedRectangle(cornerRadius: 30, style: .continuous)
-                .fill(Color(red: 0.96, green: 0.96, blue: 0.97))
-                .shadow(color: .black.opacity(0.08), radius: 10, x: 0, y: 6)
+                .fill(Color.white)                .shadow(color: .black.opacity(0.08), radius: 10, x: 0, y: 6)
         )
     }
 }
-
 #Preview {
     SearchTopCard(
         searchText: .constant(""),

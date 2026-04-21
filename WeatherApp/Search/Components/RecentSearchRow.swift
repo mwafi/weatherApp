@@ -4,15 +4,31 @@
 //
 //  Created by Mohammed Hassanien on 21/04/2026.
 //
-
 import SwiftUI
 
 struct RecentSearchRow: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack(spacing: 0) {
+            Image(systemName: "clock")
+                .font(.system(size: 22))
+                .foregroundColor(Color(red: 0.29, green: 0.35, blue: 0.53))
+
+            Text("Surabaya")
+                .font(.system(size: 19, weight: .semibold))
+                .foregroundColor(Color(red: 0.29, green: 0.35, blue: 0.53))
+                .padding(.leading, 15)
+
+            Spacer()
+
+            Text("34°")
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundColor(Color(red: 0.29, green: 0.35, blue: 0.53))
+        }
+        .frame(height: 45)
     }
 }
 
 #Preview {
     RecentSearchRow()
-}
+    .padding(.horizontal, 31)}
+

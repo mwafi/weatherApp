@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct TopBarView: View {
+    @Environment(\.dismiss) private var dismiss
     var body: some View {
         HStack {
-            Button(action: {}) {
-                HStack(spacing: 6) {
+            Button {
+                dismiss()
+            } label: {
+                HStack {
                     Image(systemName: "chevron.left")
                     Text("Back")
                 }
@@ -31,8 +34,7 @@ struct TopBarView: View {
 
 
 #Preview {
-    ZStack {
-            Color.blue.ignoresSafeArea()
-            TopBarView()
-        }
+    NavigationStack{
+        TopBarView()
+    }
 }

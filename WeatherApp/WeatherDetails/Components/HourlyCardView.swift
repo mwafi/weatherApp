@@ -26,7 +26,7 @@ struct HourlyCardView: View {
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 20) {
+            HStack(spacing: 18) {
                 ForEach(hourlyItems.indices, id: \.self) { index in
                     let item = hourlyItems[index]
                     
@@ -42,7 +42,7 @@ struct HourlyCardView: View {
                             .font(.system(size: 16, weight: .medium))
                             .foregroundColor(.white)
                     }
-                    .frame(width: 78, height: 180)
+                    .frame(width: 75, height: 165)
                     .background(
                         RoundedRectangle(cornerRadius: 30)
                             .fill(

@@ -10,6 +10,8 @@ import MapKit
 struct SearchView: View {
     @State private var searchText = ""
     @State private var showSearchCard = false
+    @Environment(\.dismiss) private var dismiss
+
 
     let recentSearches: [(city: String, high: String, low: String)] = [
         (city: "Surabaya", high: "34°", low: "23°"),
@@ -34,7 +36,9 @@ struct SearchView: View {
                                 showSearchCard = true
                             }
                         },
-                        onBack: {},
+                        onBack: {
+                            dismiss()
+                        },
                         isExpanded: false
                     )
                     .padding(.horizontal, 24)
@@ -77,5 +81,7 @@ struct SearchView: View {
 }
 
 #Preview {
-    SearchView()
+    NavigationStack {
+        SearchView()
+    }
 }

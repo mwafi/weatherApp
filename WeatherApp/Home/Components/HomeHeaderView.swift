@@ -4,7 +4,6 @@
 //
 //  Created by Mohammed Hassanien on 20/04/2026.
 //
-
 import SwiftUI
 
 struct HomeHeaderView: View {
@@ -14,15 +13,15 @@ struct HomeHeaderView: View {
     
     var body: some View {
         HStack {
-            Button {
-                print("Open city picker")
+            NavigationLink {
+                SearchView()
             } label: {
                 HStack(spacing: 8) {
                     Image("map")
                         .resizable()
                         .frame(width: 16, height: 16)
                     
-                    Text(cityName) 
+                    Text(cityName)
                         .font(.system(size: 18, weight: .semibold))
                         .foregroundColor(.white)
                     
@@ -37,8 +36,8 @@ struct HomeHeaderView: View {
             
             Button {
                 withAnimation(.easeInOut(duration: 0.28)) {
-                                    showNotifications = true
-                                }
+                    showNotifications = true
+                }
             } label: {
                 Image("Group 652")
                     .resizable()
@@ -50,7 +49,12 @@ struct HomeHeaderView: View {
         .padding(.top, 20)
     }
 }
+
 #Preview {
-    HomeHeaderView(showNotifications: .constant(false))
-        .background(Color.blue) // عشان تشوف الأيقونات البيضاء
+    NavigationStack {
+        ZStack {
+            Color.blue.ignoresSafeArea()
+            HomeHeaderView(showNotifications: .constant(false))
+        }
+    }
 }

@@ -8,11 +8,46 @@
 import SwiftUI
 
 struct DailyRowView: View {
+    let date: String
+    let icon: String
+    let temp: String
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack {
+            Text(date)
+                .font(.system(size: 16, weight: .semibold))
+                .foregroundColor(.white)
+            
+            Spacer()
+            
+            Image(icon)
+                .scaledToFit()
+                .frame(width: 42, height: 42)
+            
+            Spacer()
+            
+            Text(temp)
+                .font(.system(size: 18, weight: .medium))
+                .foregroundColor(.white)
+                .frame(width: 50, alignment: .trailing)
+        }
+        .padding(.vertical, 6)
     }
 }
 
 #Preview {
-    DailyRowView()
+    ZStack {
+        LinearGradient(
+            colors: [
+                Color(red: 0.33, green: 0.73, blue: 0.94),
+                Color(red: 0.29, green: 0.56, blue: 0.95)
+            ],
+            startPoint: .top,
+            endPoint: .bottom
+        )
+        .ignoresSafeArea()
+        
+        DailyRowView(date: "Sep, 13", icon: "thunder", temp: "21°")
+            .padding(.horizontal, 30)
+    }
 }

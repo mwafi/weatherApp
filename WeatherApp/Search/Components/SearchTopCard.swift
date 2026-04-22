@@ -6,13 +6,20 @@
 //
 
 import SwiftUI
+
 struct SearchTopCard: View {
     @Binding var searchText: String
     let recentSearches: [(city: String, high: String, low: String)]
+    var onClose: () -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: 28) {
-            SearchBarComponent(text: $searchText)
+            SearchBarComponent(
+                text: $searchText,
+                onTap: {},
+                onBack: onClose,
+                isExpanded: true
+            )
 
             VStack(alignment: .leading, spacing: 24) {
                 Text("Recent search")
@@ -21,33 +28,45 @@ struct SearchTopCard: View {
 
                 VStack(spacing: 28) {
                     ForEach(recentSearches, id: \.city) { item in
-                        Button(action: {
-                            withAnimation(.spring()) { searchText = item.city
+                        Button {
+                            withAnimation(.spring()) {
+                                searchText = item.city
                             }
-                        }) {
-                            RecentSearchRow()
+                        } label: {
+                            RecentSearchRow(
+                                city: item.city,
+                                high: item.high,
+                                low: item.low
+                            )
                         }
-                        .buttonStyle(PlainButtonStyle())
+                        .buttonStyle(.plain)
                     }
                 }
             }
+
+            Spacer()
         }
         .padding(.horizontal, 28)
         .padding(.top, 58)
         .padding(.bottom, 34)
+        .frame(maxWidth: .infinity, maxHeight: 430, alignment: .top)
         .background(
             RoundedRectangle(cornerRadius: 30, style: .continuous)
-                .fill(Color.white)                .shadow(color: .black.opacity(0.08), radius: 10, x: 0, y: 6)
+                .fill(Color.white)
+                .shadow(color: .black.opacity(0.08), radius: 10, x: 0, y: 6)
         )
     }
 }
+
 #Preview {
     SearchTopCard(
         searchText: .constant(""),
         recentSearches: [
-            (city: "Cupertino", high: "23°", low: "12°"),
-            (city: "London", high: "18°", low: "9°"),
-            (city: "Tokyo", high: "26°", low: "17°")
-        ]
+            (city: "Surabaya", high: "34°", low: "23°"),
+            (city: "Semarang", high: "30°", low: "21°"),
+            (city: "Yogyakarta", high: "32°", low: "21°")
+        ],
+        onClose: {}
     )
+    .padding()
 }

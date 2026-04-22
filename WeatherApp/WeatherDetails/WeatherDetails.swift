@@ -37,9 +37,14 @@ struct WeatherDetails: View {
             }
             .padding(.top)
         }
+        .navigationBarBackButtonHidden(true)
+                .toolbar(.hidden, for: .navigationBar)
     }
 }
 
 #Preview {
-    WeatherDetails()
+    NavigationStack
+    {
+        WeatherDetails()
+    }
 }

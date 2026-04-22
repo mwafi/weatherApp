@@ -9,8 +9,8 @@ import SwiftUI
 
 struct ForecastReportButtonView: View {
     var body: some View {
-        Button {
-            print("Open forecast report")
+        NavigationLink{
+            WeatherDetails()
         } label: {
             HStack(spacing: 10) {
                 Text("Forecast report")
@@ -34,5 +34,7 @@ struct ForecastReportButtonView: View {
     }
 }
 #Preview {
-    ForecastReportButtonView()
+    NavigationStack{
+        ForecastReportButtonView()
+    }
 }

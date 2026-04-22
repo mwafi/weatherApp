@@ -7,20 +7,24 @@
 import SwiftUI
 
 struct RecentSearchRow: View {
+    let city: String
+    let high: String
+    let low: String
+
     var body: some View {
         HStack(spacing: 0) {
             Image(systemName: "clock")
                 .font(.system(size: 22))
                 .foregroundColor(Color(red: 0.29, green: 0.35, blue: 0.53))
 
-            Text("Surabaya")
+            Text(city)
                 .font(.system(size: 19, weight: .semibold))
                 .foregroundColor(Color(red: 0.29, green: 0.35, blue: 0.53))
                 .padding(.leading, 15)
 
             Spacer()
 
-            Text("34°")
+            Text("\(high) / \(low)")
                 .font(.system(size: 18, weight: .semibold))
                 .foregroundColor(Color(red: 0.29, green: 0.35, blue: 0.53))
         }
@@ -29,6 +33,6 @@ struct RecentSearchRow: View {
 }
 
 #Preview {
-    RecentSearchRow()
-    .padding(.horizontal, 31)}
-
+    RecentSearchRow(city: "Surabaya", high: "34°", low: "23°")
+        .padding(.horizontal, 31)
+}

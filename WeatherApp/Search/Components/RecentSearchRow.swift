@@ -8,8 +8,7 @@ import SwiftUI
 
 struct RecentSearchRow: View {
     let city: String
-    let high: String
-    let low: String
+    let temperature: String
 
     var body: some View {
         HStack(spacing: 0) {
@@ -24,7 +23,7 @@ struct RecentSearchRow: View {
 
             Spacer()
 
-            Text("\(high) / \(low)")
+            Text(temperature)
                 .font(.system(size: 18, weight: .semibold))
                 .foregroundColor(Color(red: 0.29, green: 0.35, blue: 0.53))
         }
@@ -33,6 +32,6 @@ struct RecentSearchRow: View {
 }
 
 #Preview {
-    RecentSearchRow(city: "Surabaya", high: "34°", low: "23°")
+    RecentSearchRow(city: "Surabaya", temperature: "34°")
         .padding(.horizontal, 31)
 }

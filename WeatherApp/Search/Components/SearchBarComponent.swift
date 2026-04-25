@@ -4,7 +4,6 @@
 //
 //  Created by Mohammed Hassanien on 21/04/2026.
 //
-
 import SwiftUI
 
 struct SearchBarComponent: View {
@@ -12,6 +11,7 @@ struct SearchBarComponent: View {
     var onTap: () -> Void
     var onBack: () -> Void
     var isExpanded: Bool = false
+    var onSubmit: () -> Void = {}
 
     var body: some View {
         HStack(spacing: 12) {
@@ -26,11 +26,17 @@ struct SearchBarComponent: View {
                 .foregroundColor(Color(red: 0.29, green: 0.35, blue: 0.53))
                 .disabled(!isExpanded)
                 .allowsHitTesting(isExpanded)
+                .submitLabel(.search)
+                .onSubmit {
+                    onSubmit()
+                }
 
             Spacer()
 
-            Button(action: {}) {
-                Image(systemName: "mic.fill")
+            Button(action: {
+                onSubmit()
+            }) {
+                Image(systemName: "magnifyingglass")
                     .font(.system(size: 20, weight: .medium))
                     .foregroundColor(Color(red: 0.29, green: 0.35, blue: 0.53))
             }
@@ -48,13 +54,13 @@ struct SearchBarComponent: View {
         }
     }
 }
-
 #Preview {
     SearchBarComponent(
         text: .constant(""),
         onTap: {},
         onBack: {},
-        isExpanded: false
+        isExpanded: false,
+        onSubmit: {}
     )
     .padding()
 }

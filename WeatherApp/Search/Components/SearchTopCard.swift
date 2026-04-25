@@ -4,12 +4,13 @@
 //
 //  Created by Mohammed Hassanien on 21/04/2026.
 //
-
 import SwiftUI
 
 struct SearchTopCard: View {
     @Binding var searchText: String
-    let recentSearches: [(city: String, high: String, low: String)]
+    let recentSearches: [(city: String, lat: Double, lon: Double, temperature: String)]
+    var onSelectCity: (String, Double, Double) -> Void
+    var onSearchSubmit: () -> Void
     var onClose: () -> Void
 
     var body: some View {
@@ -18,7 +19,10 @@ struct SearchTopCard: View {
                 text: $searchText,
                 onTap: {},
                 onBack: onClose,
-                isExpanded: true
+                isExpanded: true,
+                onSubmit: {
+                    onSearchSubmit()
+                }
             )
 
             VStack(alignment: .leading, spacing: 24) {
@@ -29,14 +33,11 @@ struct SearchTopCard: View {
                 VStack(spacing: 28) {
                     ForEach(recentSearches, id: \.city) { item in
                         Button {
-                            withAnimation(.spring()) {
-                                searchText = item.city
-                            }
+                            onSelectCity(item.city, item.lat, item.lon)
                         } label: {
                             RecentSearchRow(
                                 city: item.city,
-                                high: item.high,
-                                low: item.low
+                                temperature: item.temperature
                             )
                         }
                         .buttonStyle(.plain)
@@ -56,17 +57,4 @@ struct SearchTopCard: View {
                 .shadow(color: .black.opacity(0.08), radius: 10, x: 0, y: 6)
         )
     }
-}
-
-#Preview {
-    SearchTopCard(
-        searchText: .constant(""),
-        recentSearches: [
-            (city: "Surabaya", high: "34°", low: "23°"),
-            (city: "Semarang", high: "30°", low: "21°"),
-            (city: "Yogyakarta", high: "32°", low: "21°")
-        ],
-        onClose: {}
-    )
-    .padding()
 }

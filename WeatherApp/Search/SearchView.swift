@@ -6,17 +6,18 @@
 //
 import SwiftUI
 import MapKit
+import CoreLocation
 
 struct SearchView: View {
+    @Binding var cityName: String
+    @ObservedObject var viewModel: WeatherViewModel
+
     @State private var searchText = ""
     @State private var showSearchCard = false
     @Environment(\.dismiss) private var dismiss
 
-
-    let recentSearches: [(city: String, high: String, low: String)] = [
-        (city: "Surabaya", high: "34°", low: "23°"),
-        (city: "Semarang", high: "30°", low: "21°"),
-        (city: "Yogyakarta", high: "32°", low: "21°")
+    @State private var recentSearches: [(city: String, lat: Double, lon: Double, temperature: String)] = [
+        (city: "Surabaya", lat: -7.2575, lon: 112.7521, temperature: "34°")
     ]
 
     var body: some View {
@@ -24,7 +25,7 @@ struct SearchView: View {
             Color(red: 0.94, green: 0.96, blue: 0.99)
                 .ignoresSafeArea()
 
-            MapSection()
+            MapSection(viewModel: viewModel)
                 .ignoresSafeArea()
 
             VStack(spacing: 0) {
@@ -39,7 +40,10 @@ struct SearchView: View {
                         onBack: {
                             dismiss()
                         },
-                        isExpanded: false
+                        isExpanded: false,
+                        onSubmit: {
+                            searchByName()
+                        }
                     )
                     .padding(.horizontal, 24)
                     .padding(.top, 70)
@@ -61,6 +65,14 @@ struct SearchView: View {
                     SearchTopCard(
                         searchText: $searchText,
                         recentSearches: recentSearches,
+                        onSelectCity: { city, lat, lon in
+                            self.cityName = city
+                            searchText = city
+                            performSearch(city: city, lat: lat, lon: lon)
+                        },
+                        onSearchSubmit: {
+                            searchByName()
+                        },
                         onClose: {
                             withAnimation(.spring(response: 0.38, dampingFraction: 0.9)) {
                                 showSearchCard = false
@@ -78,10 +90,54 @@ struct SearchView: View {
         .navigationBarBackButtonHidden(true)
         .toolbar(.hidden, for: .navigationBar)
     }
+
+    private func performSearch(city: String, lat: Double, lon: Double) {
+        Task {
+            await viewModel.loadWeather(lat: lat, lon: lon)
+
+            let currentTemp = "\(Int(viewModel.weather?.current.temperature_2m ?? 0))°"
+
+            recentSearches.removeAll { $0.city.lowercased() == city.lowercased() }
+
+            recentSearches.insert(
+                (city: city, lat: lat, lon: lon, temperature: currentTemp),
+                at: 0
+            )
+
+            if recentSearches.count > 5 {
+                recentSearches = Array(recentSearches.prefix(5))
+            }
+
+            withAnimation(.spring(response: 0.38, dampingFraction: 0.9)) {
+                showSearchCard = false
+            }
+        }
+    }
+
+    private func searchByName() {
+        let trimmed = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return }
+
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(trimmed) { placemarks, error in
+            guard error == nil,
+                  let placemark = placemarks?.first,
+                  let coordinate = placemark.location?.coordinate else {
+                return
+            }
+
+            let cityNameResult = placemark.locality ?? placemark.country ?? trimmed
+            self.cityName = cityNameResult
+            performSearch(city: cityNameResult, lat: coordinate.latitude, lon: coordinate.longitude)
+        }
+    }
 }
 
 #Preview {
     NavigationStack {
-        SearchView()
+        SearchView(
+            cityName: .constant("Semarang"),
+            viewModel: WeatherViewModel()
+        )
     }
 }

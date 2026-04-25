@@ -7,16 +7,20 @@
 
 import SwiftUI
 
+import SwiftUI
+
 struct ForecastReportButtonView: View {
+    @ObservedObject var viewModel: WeatherViewModel
+
     var body: some View {
-        NavigationLink{
-            WeatherDetails()
+        NavigationLink {
+            WeatherDetails(viewModel: viewModel)
         } label: {
             HStack(spacing: 10) {
                 Text("Forecast report")
                     .font(.system(size: 16, weight: .medium))
                     .foregroundColor(Color(red: 0.29, green: 0.33, blue: 0.50))
-                
+
                 Image("up")
                     .resizable()
                     .scaledToFit()
@@ -34,7 +38,7 @@ struct ForecastReportButtonView: View {
     }
 }
 #Preview {
-    NavigationStack{
-        ForecastReportButtonView()
+    NavigationStack {
+        ForecastReportButtonView(viewModel: WeatherViewModel())
     }
 }

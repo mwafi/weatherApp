@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-
 import SwiftUI
 
 struct ForecastReportButtonView: View {
@@ -37,6 +36,7 @@ struct ForecastReportButtonView: View {
         .buttonStyle(.plain)
     }
 }
+
 #Preview {
     NavigationStack {
         ForecastReportButtonView(viewModel: WeatherViewModel())

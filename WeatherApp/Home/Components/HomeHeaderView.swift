@@ -14,9 +14,9 @@ struct HomeHeaderView: View {
         HStack {
             NavigationLink {
                 SearchView(
-                    cityName: $cityName,
-                    viewModel: viewModel
-                )
+               cityName: $cityName,
+                 viewModel: viewModel
+               )
             } label: {
                 HStack(spacing: 8) {
                     Image("map")

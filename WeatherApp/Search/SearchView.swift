@@ -14,19 +14,20 @@ struct SearchView: View {
 
     @State private var searchText = ""
     @State private var showSearchCard = false
-    @Environment(\.dismiss) private var dismiss
+    @State private var selectedCoordinate: CLLocationCoordinate2D?
 
-    @State private var recentSearches: [(city: String, lat: Double, lon: Double, temperature: String)] = [
-        (city: "Surabaya", lat: -7.2575, lon: 112.7521, temperature: "34°")
-    ]
+    @Environment(\.dismiss) private var dismiss
+    @State private var recentSearches: [RecentSearchItem] = []
 
     var body: some View {
         ZStack(alignment: .top) {
-            Color(red: 0.94, green: 0.96, blue: 0.99)
-                .ignoresSafeArea()
 
-            MapSection(viewModel: viewModel)
-                .ignoresSafeArea()
+            MapSection(
+                viewModel: viewModel,
+                selectedCoordinate: $selectedCoordinate,
+                cityName: $cityName
+            )
+            .ignoresSafeArea()
 
             VStack(spacing: 0) {
                 if !showSearchCard {
@@ -66,7 +67,7 @@ struct SearchView: View {
                         searchText: $searchText,
                         recentSearches: recentSearches,
                         onSelectCity: { city, lat, lon in
-                            self.cityName = city
+                            cityName = city
                             searchText = city
                             performSearch(city: city, lat: lat, lon: lon)
                         },
@@ -84,32 +85,50 @@ struct SearchView: View {
 
                     Spacer()
                 }
-                .transition(.move(edge: .top).combined(with: .opacity))
             }
         }
         .navigationBarBackButtonHidden(true)
         .toolbar(.hidden, for: .navigationBar)
+        .onAppear {
+            loadRecentSearches()
+        }
     }
 
     private func performSearch(city: String, lat: Double, lon: Double) {
+        selectedCoordinate = CLLocationCoordinate2D(
+            latitude: lat,
+            longitude: lon
+        )
+
         Task {
             await viewModel.loadWeather(lat: lat, lon: lon)
 
-            let currentTemp = "\(Int(viewModel.weather?.current.temperature_2m ?? 0))°"
+            let currentTemp = "\(Int(viewModel.weather?.current?.temperature_2m.rounded() ?? 0))°"
 
-            recentSearches.removeAll { $0.city.lowercased() == city.lowercased() }
+            await MainActor.run {
+                recentSearches.removeAll {
+                    $0.city.lowercased() == city.lowercased()
+                }
 
-            recentSearches.insert(
-                (city: city, lat: lat, lon: lon, temperature: currentTemp),
-                at: 0
-            )
+                recentSearches.insert(
+                    RecentSearchItem(
+                        city: city,
+                        lat: lat,
+                        lon: lon,
+                        temperature: currentTemp
+                    ),
+                    at: 0
+                )
 
-            if recentSearches.count > 5 {
-                recentSearches = Array(recentSearches.prefix(5))
-            }
+                if recentSearches.count > 5 {
+                    recentSearches = Array(recentSearches.prefix(5))
+                }
 
-            withAnimation(.spring(response: 0.38, dampingFraction: 0.9)) {
-                showSearchCard = false
+                saveRecentSearches()
+
+                withAnimation(.spring(response: 0.38, dampingFraction: 0.9)) {
+                    showSearchCard = false
+                }
             }
         }
     }
@@ -118,18 +137,43 @@ struct SearchView: View {
         let trimmed = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return }
 
-        let geocoder = CLGeocoder()
-        geocoder.geocodeAddressString(trimmed) { placemarks, error in
+        CLGeocoder().geocodeAddressString(trimmed) { placemarks, error in
             guard error == nil,
                   let placemark = placemarks?.first,
                   let coordinate = placemark.location?.coordinate else {
                 return
             }
 
-            let cityNameResult = placemark.locality ?? placemark.country ?? trimmed
-            self.cityName = cityNameResult
-            performSearch(city: cityNameResult, lat: coordinate.latitude, lon: coordinate.longitude)
+            let resultName =
+                placemark.locality ??
+                placemark.administrativeArea ??
+                placemark.country ??
+                trimmed
+
+            DispatchQueue.main.async {
+                cityName = resultName
+
+                performSearch(
+                    city: resultName,
+                    lat: coordinate.latitude,
+                    lon: coordinate.longitude
+                )
+            }
         }
+    }
+
+    private func saveRecentSearches() {
+        if let data = try? JSONEncoder().encode(recentSearches) {
+            UserDefaults.standard.set(data, forKey: "recentSearches")
+        }
+    }
+
+    private func loadRecentSearches() {
+        guard let data = UserDefaults.standard.data(forKey: "recentSearches"),
+              let saved = try? JSONDecoder().decode([RecentSearchItem].self, from: data)
+        else { return }
+
+        recentSearches = saved
     }
 }
 

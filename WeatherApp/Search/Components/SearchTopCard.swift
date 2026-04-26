@@ -8,7 +8,8 @@ import SwiftUI
 
 struct SearchTopCard: View {
     @Binding var searchText: String
-    let recentSearches: [(city: String, lat: Double, lon: Double, temperature: String)]
+    let recentSearches: [RecentSearchItem]
+
     var onSelectCity: (String, Double, Double) -> Void
     var onSearchSubmit: () -> Void
     var onClose: () -> Void
@@ -31,7 +32,7 @@ struct SearchTopCard: View {
                     .foregroundColor(Color(red: 0.29, green: 0.35, blue: 0.53))
 
                 VStack(spacing: 28) {
-                    ForEach(recentSearches, id: \.city) { item in
+                    ForEach(recentSearches) { item in
                         Button {
                             onSelectCity(item.city, item.lat, item.lon)
                         } label: {

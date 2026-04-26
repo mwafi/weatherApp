@@ -7,22 +7,11 @@
 import SwiftUI
 
 struct HomeScreen: View {
+    
     @StateObject private var viewModel = WeatherViewModel()
     @State private var cityName: String = "Semarang"
     @State private var showNotifications = false
     @State private var didLoadInitialWeather = false
-
-    private var formattedDate: String {
-        guard let date = viewModel.weather?.current.time else { return "Today" }
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEEE, d MMMM"
-        return formatter.string(from: date)
-    }
-
-    private var temperatureText: String {
-        guard let temp = viewModel.weather?.current.temperature_2m else { return "--°" }
-        return "\(Int(temp.rounded()))°"
-    }
 
     var body: some View {
         NavigationStack {
@@ -30,28 +19,44 @@ struct HomeScreen: View {
                 HomeBackgroundView()
 
                 VStack(spacing: 20) {
+
                     HomeHeaderView(
                         cityName: $cityName,
                         showNotifications: $showNotifications,
                         viewModel: viewModel
                     )
 
-                    WeatherIllustrationView(conditionName: "Cloudy")
+                    if let ui = viewModel.uiModel {
 
-                    CurrentWeatherCardView(
-                        dateText: formattedDate,
-                        temperatureText: temperatureText,
-                        conditionText: "Cloudy",
-                        windText: "10 km/h",
-                        humidityText: "54 %"
-                    )
+                        WeatherIllustrationView(conditionName: ui.imageName)
+
+                        CurrentWeatherCardView(
+                            dateText: ui.date,
+                            temperatureText: ui.temperature,
+                            conditionText: ui.condition,
+                            windText: ui.wind,
+                            humidityText: ui.humidity
+                        )
+
+                    } else if viewModel.isLoading {
+
+                        ProgressView()
+                            .tint(.white)
+                            .scaleEffect(1.3)
+
+                    } else if let error = viewModel.errorMessage {
+
+                        Text(error)
+                            .foregroundColor(.white)
+                            .padding()
+                    }
+                    Spacer()
 
                     ForecastReportButtonView(viewModel: viewModel)
 
-                    Spacer()
+               
                 }
 
-                // ✅ ده اللي يرجع الشكل القديم
                 if showNotifications {
                     NotificationsOverlayView(isPresented: $showNotifications)
                         .transition(.move(edge: .bottom).combined(with: .opacity))
@@ -61,12 +66,11 @@ struct HomeScreen: View {
             .task {
                 guard !didLoadInitialWeather else { return }
                 didLoadInitialWeather = true
-                await viewModel.loadWeather()
+                await viewModel.loadWeather(lat: -6.9667, lon: 110.4167)
             }
         }
     }
 }
-
 #Preview {
     HomeScreen()
 }

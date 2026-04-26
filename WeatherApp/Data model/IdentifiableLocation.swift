@@ -6,3 +6,9 @@
 //
 
 import Foundation
+import CoreLocation
+
+struct IdentifiableLocation: Identifiable {
+    let id = UUID()
+    let coord: CLLocationCoordinate2D
+}

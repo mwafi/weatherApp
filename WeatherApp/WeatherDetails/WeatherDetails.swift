@@ -4,21 +4,26 @@
 //
 //  Created by Mohammed Hassanien on 22/04/2026.
 //
-
 import SwiftUI
 
 struct WeatherDetails: View {
     @ObservedObject var viewModel: WeatherViewModel
 
     private var formattedDate: String {
-        guard let date = viewModel.weather?.current.time else { return "Sep, 12" }
+        guard let date = viewModel.weather?.current?.time else {
+            return "--"
+        }
+
         let formatter = DateFormatter()
         formatter.dateFormat = "MMM, d"
         return formatter.string(from: date)
     }
 
     private var currentTemp: String {
-        guard let temp = viewModel.weather?.current.temperature_2m else { return "--°" }
+        guard let temp = viewModel.weather?.current?.temperature_2m else {
+            return "--°"
+        }
+
         return "\(Int(temp.rounded()))°"
     }
 
@@ -47,8 +52,9 @@ struct WeatherDetails: View {
                 .foregroundColor(.white)
                 .padding(.horizontal, 37)
 
-                HourlyCardView()
-                DailyForecastSectionView()
+                HourlyCardView(weather: viewModel.weather)
+
+                DailyForecastSectionView(weather: viewModel.weather)
 
                 Spacer()
             }

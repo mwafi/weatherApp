@@ -30,8 +30,7 @@ struct RecentSearchRow: View {
         .frame(height: 45)
     }
 }
-
-#Preview {
-    RecentSearchRow(city: "Surabaya", temperature: "34°")
-        .padding(.horizontal, 31)
-}
+    #Preview {
+        RecentSearchRow(city: "Surabaya", temperature: "34°")
+            .padding(.horizontal, 31)
+    }

@@ -15,14 +15,13 @@ struct WeatherIllustrationView: View {
             Image(conditionName)
                 .resizable()
                 .scaledToFit()
-                .frame(width: 200, height: 200) 
-                .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 8)
+                .frame(width: 200, height: 200)
         }
         .frame(maxWidth: .infinity)
     }
 }
 
 #Preview {
-    WeatherIllustrationView(conditionName: "Cloudy")
+    WeatherIllustrationView(conditionName: "rain")
     
 }

@@ -15,6 +15,8 @@ struct SearchView: View {
     @StateObject private var searchViewModel = SearchViewModel()
     @Environment(\.dismiss) private var dismiss
 
+    @State private var oldCityName: String = ""
+
     var body: some View {
         ZStack(alignment: .top) {
 
@@ -33,6 +35,8 @@ struct SearchView: View {
                             searchViewModel.openSearchCard()
                         },
                         onBack: {
+                            cityName = oldCityName
+                            searchViewModel.searchText = oldCityName
                             dismiss()
                         },
                         isExpanded: false,
@@ -41,10 +45,21 @@ struct SearchView: View {
                         }
                     )
                     .padding(.horizontal, 24)
-                    .padding(.top, 70)
+                    .padding(.top, 20)
                 }
 
                 Spacer()
+
+                if !searchViewModel.showSearchCard {
+                    VStack {
+                        Spacer()
+
+                        ConfirmLocation(onBack: {
+                            dismiss()
+                        })
+                        .padding(.bottom, 34)
+                    }
+                }
             }
 
             if searchViewModel.showSearchCard {
@@ -78,6 +93,8 @@ struct SearchView: View {
         .navigationBarBackButtonHidden(true)
         .toolbar(.hidden, for: .navigationBar)
         .onAppear {
+            oldCityName = cityName
+            searchViewModel.searchText = cityName
             searchViewModel.loadRecentSearches()
         }
     }

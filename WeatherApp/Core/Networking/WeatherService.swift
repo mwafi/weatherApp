@@ -8,6 +8,12 @@
 import Foundation
 
 final class WeatherService: WeatherServiceProtocol {
+    
+    private let session: URLSessionProtocol
+    
+    init(session: URLSessionProtocol = URLSession.shared) {
+        self.session = session
+    }
 
     func fetchWeather(lat: Double, lon: Double) async throws -> WeatherResponse {
         let url = try makeWeatherURL(lat: lat, lon: lon)
@@ -49,7 +55,7 @@ private extension WeatherService {
         return url
     }   
     func performRequest(from url: URL) async throws -> Data {
-        let (data, response) = try await URLSession.shared.data(from: url)
+        let (data, response) = try await session.data(from: url)
 
         guard let httpResponse = response as? HTTPURLResponse,
               200...299 ~= httpResponse.statusCode else {

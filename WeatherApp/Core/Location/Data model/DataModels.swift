@@ -86,10 +86,3 @@ struct DailyForecastItem: Identifiable {
     let icon: String
     let temp: String
 }
-
-struct HourlyForecastItem: Identifiable {
-    let id = UUID()
-    let temp: String
-    let icon: String
-    let time: String
-}

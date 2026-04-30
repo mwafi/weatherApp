@@ -17,10 +17,10 @@ struct ForecastReportButtonView: View {
         } label: {
             HStack(spacing: 10) {
                 Text("Forecast report")
-                    .font(.system(size: 16, weight: .medium))
+                    .font(.custom("Overpass-Bold", size: 17))
                     .foregroundColor(Color(red: 0.29, green: 0.33, blue: 0.50))
 
-                Image("up")
+                Image("up (6)")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 24, height: 24)

@@ -24,7 +24,8 @@ struct HomeHeaderView: View {
                         .frame(width: 16, height: 16)
 
                     Text(cityName)
-                        .font(.system(size: 18, weight: .semibold))
+                        .font(.custom("Overpass-Bold", size: 23))
+                    
                         .foregroundColor(.white)
 
                     Image("opt")
@@ -37,9 +38,9 @@ struct HomeHeaderView: View {
             Spacer()
 
             Button {
-                withAnimation(.easeInOut(duration: 0.28)) {
+               
                     showNotifications = true
-                }
+               
             } label: {
                 Image("Group 652")
                     .resizable()
@@ -57,7 +58,7 @@ struct HomeHeaderView: View {
         ZStack {
             Color.blue.ignoresSafeArea()
             HomeHeaderView(
-                cityName: .constant("Semarang"),
+                cityName: .constant("Jerusalem"),
                 showNotifications: .constant(false),
                 viewModel: WeatherViewModel()
             )

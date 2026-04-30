@@ -15,34 +15,39 @@ struct CurrentWeatherCardView: View {
 
     var body: some View {
         VStack(spacing: 0) {
+            
             Text(dateText)
-                .font(.system(size: 14, weight: .regular))
+                .font(.custom("Overpass-Regular", size: 17))
                 .foregroundColor(.white.opacity(0.95))
+                .shadow(color: .white.opacity(0.25), radius: 1, x: -1, y: -1)
+                .shadow(color: .black.opacity(0.18), radius: 3, x: 2, y: 2)
                 .padding(.top, 24)
 
             Text(temperatureText)
-                .font(.system(size: 88, weight: .thin))
+                .font(.custom("Overpass-Bold", size: 93))
                 .foregroundStyle(
                     LinearGradient(
                         colors: [
-                            Color.white.opacity(0.98),
-                            Color.white.opacity(0.86)
+                            Color.white,
+                            Color.white.opacity(0.78)
                         ],
                         startPoint: .top,
                         endPoint: .bottom
                     )
                 )
-                .shadow(color: .white.opacity(0.12), radius: 1, x: 0, y: -1)
-                .shadow(color: .black.opacity(0.10), radius: 6, x: 0, y: 4)
+                .shadow(color: .white.opacity(0.35), radius: 2, x: -2, y: -2)
+                .shadow(color: .black.opacity(0.20), radius: 8, x: 4, y: 5)
                 .padding(.top, 10)
 
             Text(conditionText)
-                .font(.system(size: 18, weight: .semibold))
+                .font(.custom("Overpass-Bold", size: 22))
                 .foregroundColor(.white)
-                .shadow(color: .black.opacity(0.08), radius: 4, x: 0, y: 3)
+                .shadow(color: .white.opacity(0.25), radius: 1, x: -1, y: -1)
+                .shadow(color: .black.opacity(0.18), radius: 4, x: 2, y: 3)
                 .padding(.top, 8)
 
             VStack(spacing: 16) {
+                
                 HStack(spacing: 0) {
                     Image("windy")
                         .resizable()
@@ -52,18 +57,22 @@ struct CurrentWeatherCardView: View {
                     Spacer().frame(width: 14)
 
                     Text("Wind")
-                        .font(.system(size: 15, weight: .regular))
+                        .font(.custom("Overpass-Light", size: 17))
                         .foregroundColor(.white)
+                        .shadow(color: .white.opacity(0.2), radius: 1, x: -1, y: -1)
+                        .shadow(color: .black.opacity(0.15), radius: 2, x: 1, y: 2)
                         .frame(width: 42, alignment: .leading)
 
                     Text("|")
-                        .font(.system(size: 15, weight: .light))
-                        .foregroundColor(.white.opacity(0.70))
-                        .frame(width: 18, alignment: .center)
+                        .font(.custom("Overpass-Light", size: 17))
+                        .foregroundColor(.white.opacity(0.7))
+                        .frame(width: 18)
 
                     Text(windText)
-                        .font(.system(size: 15, weight: .regular))
+                        .font(.custom("Overpass-Light", size: 17))
                         .foregroundColor(.white)
+                        .shadow(color: .white.opacity(0.2), radius: 1, x: -1, y: -1)
+                        .shadow(color: .black.opacity(0.15), radius: 2, x: 1, y: 2)
                         .frame(width: 78, alignment: .leading)
                 }
 
@@ -76,18 +85,22 @@ struct CurrentWeatherCardView: View {
                     Spacer().frame(width: 14)
 
                     Text("Hum")
-                        .font(.system(size: 15, weight: .regular))
+                        .font(.custom("Overpass-Light", size: 17))
                         .foregroundColor(.white)
+                        .shadow(color: .white.opacity(0.2), radius: 1, x: -1, y: -1)
+                        .shadow(color: .black.opacity(0.15), radius: 2, x: 1, y: 2)
                         .frame(width: 42, alignment: .leading)
 
                     Text("|")
-                        .font(.system(size: 15, weight: .light))
-                        .foregroundColor(.white.opacity(0.70))
-                        .frame(width: 18, alignment: .center)
+                        .font(.custom("Overpass-Light", size: 17))
+                        .foregroundColor(.white.opacity(0.7))
+                        .frame(width: 18)
 
                     Text(humidityText)
-                        .font(.system(size: 15, weight: .regular))
+                        .font(.custom("Overpass-Light", size: 17))
                         .foregroundColor(.white)
+                        .shadow(color: .white.opacity(0.2), radius: 1, x: -1, y: -1)
+                        .shadow(color: .black.opacity(0.15), radius: 2, x: 1, y: 2)
                         .frame(width: 78, alignment: .leading)
                 }
             }
@@ -97,29 +110,23 @@ struct CurrentWeatherCardView: View {
             Spacer()
         }
         .frame(width: 300, height: 300)
+        
         .background(
-            ZStack {
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(Color.white.opacity(0.08))
-
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(.ultraThinMaterial.opacity(0.22))
-
-                RoundedRectangle(cornerRadius: 20)
-                    .stroke(Color.white.opacity(0.26), lineWidth: 1)
-
-                RoundedRectangle(cornerRadius: 20)
-                    .stroke(Color.white.opacity(0.08), lineWidth: 0.5)
-                    .blur(radius: 1)
-            }
+            RoundedRectangle(cornerRadius: 20)
+                .fill(
+                    LinearGradient(
+                        colors: [
+                            Color(red: 0.52, green: 0.75, blue: 0.92),
+                            Color(red: 0.42, green: 0.67, blue: 0.88)
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+                .shadow(color: .white.opacity(0.45), radius: 10, x: -6, y: -6)
+                .shadow(color: .black.opacity(0.18), radius: 12, x: 7, y: 7)
         )
         .clipShape(RoundedRectangle(cornerRadius: 20))
-        .shadow(
-            color: Color.black.opacity(0.06),
-            radius: 14,
-            x: 0,
-            y: 8
-        )
     }
 }
 

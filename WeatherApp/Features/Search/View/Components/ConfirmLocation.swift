@@ -16,10 +16,10 @@ struct ConfirmLocation: View {
         Button(action: onBack) {
             HStack(spacing: 8) {
                 Image(systemName: "checkmark")
-                    .font(.system(size: 13, weight: .bold))
-
+                    .font(.custom("Overpass-Medium", size: 22))
+                
                 Text("Confirm")
-                    .font(.system(size: 15, weight: .semibold))
+                .font(.custom("Overpass-Medium", size: 22))
             }
             .foregroundColor(.white)
             .padding(.horizontal, 24)

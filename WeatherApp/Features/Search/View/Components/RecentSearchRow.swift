@@ -13,20 +13,19 @@ struct RecentSearchRow: View {
     var body: some View {
         HStack(spacing: 0) {
             Image(systemName: "clock")
-                .font(.system(size: 22))
+                .font(.system(size: 18))
                 .foregroundColor(Color(red: 0.29, green: 0.35, blue: 0.53))
 
             Text(city)
-                .font(.system(size: 19, weight: .semibold))
-                .foregroundColor(Color(red: 0.29, green: 0.35, blue: 0.53))
+                .font(.custom("Overpass-Medium", size: 18))                .foregroundColor(Color(red: 0.29, green: 0.35, blue: 0.53))
                 .padding(.leading, 15)
 
             Spacer()
 
             Text(temperature)
-                .font(.system(size: 18, weight: .semibold))
-                .foregroundColor(Color(red: 0.29, green: 0.35, blue: 0.53))
+                .font(.custom("Overpass-Medium", size: 18))                .foregroundColor(Color(red: 0.29, green: 0.35, blue: 0.53))
         }
+        .scrollContentBackground(.hidden)
         .frame(height: 45)
     }
 }

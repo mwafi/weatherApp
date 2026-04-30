@@ -22,8 +22,7 @@ struct SearchBarComponent: View {
             }
 
             TextField("Search here", text: $text)
-                .font(.system(size: 16, weight: .medium))
-                .foregroundColor(Color(red: 0.29, green: 0.35, blue: 0.53))
+                .font(.custom("Overpass-Medium", size: 16))                .foregroundColor(Color(red: 0.29, green: 0.35, blue: 0.53))
                 .disabled(!isExpanded)
                 .allowsHitTesting(isExpanded)
                 .submitLabel(.search)
@@ -37,7 +36,8 @@ struct SearchBarComponent: View {
                 onSubmit()
             }) {
                 Image(systemName: "magnifyingglass")
-                    .font(.system(size: 20, weight: .medium))
+                    .font(.custom("Overpass-Regular", size: 24))
+                                    
                     .foregroundColor(Color(red: 0.29, green: 0.35, blue: 0.53))
             }
         }

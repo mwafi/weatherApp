@@ -28,7 +28,7 @@ struct SearchTopCard: View {
 
             VStack(alignment: .leading, spacing: 24) {
                 Text("Recent search")
-                    .font(.system(size: 15, weight: .semibold))
+                    .font(.custom("Overpass-Medium", size: 16))
                     .foregroundColor(Color(red: 0.29, green: 0.35, blue: 0.53))
 
                 VStack(spacing: 28) {

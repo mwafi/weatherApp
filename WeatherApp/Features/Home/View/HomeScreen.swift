@@ -9,7 +9,7 @@ import SwiftUI
 struct HomeScreen: View {
     
     @StateObject private var viewModel = WeatherViewModel()
-    @State private var cityName: String = "Semarang"
+    @State private var cityName: String = "Jerusalem"
     @State private var showNotifications = false
     @State private var didLoadInitialWeather = false
 
@@ -66,8 +66,7 @@ struct HomeScreen: View {
             .task {
                 guard !didLoadInitialWeather else { return }
                 didLoadInitialWeather = true
-                await viewModel.loadWeather(lat: -6.9667, lon: 110.4167)
-            }
+                await viewModel.loadWeather(lat: 31.7683, lon: 35.2137)            }
         }
     }
 }

@@ -17,7 +17,7 @@ struct NotificationsSheetView: View {
                 .padding(.bottom, 20)
 
             Text("Your notification")
-                .font(.system(size: 24, weight: .bold))
+                .font(.custom("Overpass-Bold", size: 23))
                 .foregroundColor(Color(red: 0.2, green: 0.2, blue: 0.3))
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, 24)
@@ -34,7 +34,7 @@ struct NotificationsSheetView: View {
                 } header: {
                     Text("New")
                         .textCase(nil)
-                        .font(.system(size: 16, weight: .medium))
+                        .font(.custom("Overpass-Bold", size: 12))
                         .foregroundColor(.gray)
                 }
 
@@ -55,8 +55,7 @@ struct NotificationsSheetView: View {
                 } header: {
                     Text("Earlier")
                         .textCase(nil)
-                        .font(.system(size: 16, weight: .medium))
-                        .foregroundColor(.gray)
+                        .font(.custom("Overpass-Bold", size: 12))                        .foregroundColor(.gray)
                 }
             }
             .listStyle(.plain)

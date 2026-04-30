@@ -23,11 +23,11 @@ struct NotificationItem: View {
 
             VStack(alignment: .leading, spacing: 6) {
                 Text(time)
-                    .font(.system(size: 13))
+                    .font(.custom("Overpass-Bold", size: 12))
                     .foregroundColor(.secondary)
 
                 Text(message)
-                    .font(.system(size: 15, weight: .semibold))
+                    .font(.custom("Overpass-Bold", size: 16))
                     .foregroundColor(Color(red: 0.2, green: 0.2, blue: 0.3))
                     .fixedSize(horizontal: false, vertical: true)
             }

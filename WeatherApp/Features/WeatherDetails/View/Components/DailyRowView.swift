@@ -15,7 +15,7 @@ struct DailyRowView: View {
     var body: some View {
         HStack {
             Text(date)
-                .font(.system(size: 16, weight: .semibold))
+                .font(.custom("Overpass-Bold", size: 17))
                 .foregroundColor(.white)
             
             Spacer()
@@ -27,7 +27,7 @@ struct DailyRowView: View {
             Spacer()
             
             Text(temp)
-                .font(.system(size: 18, weight: .medium))
+                .font(.custom("Overpass-Bold", size: 17))
                 .foregroundColor(.white)
                 .frame(width: 50, alignment: .trailing)
         }

@@ -21,16 +21,16 @@ struct WeatherDetails: View {
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Today")
-                            .font(.system(size: 28, weight: .bold))
+                            .font(.custom("Overpass-Bold", size: 28))
 
                         Text(detailsViewModel.currentTemp)
-                            .font(.system(size: 18, weight: .medium))
+                            .font(.custom("Overpass-Medium", size: 18))
                     }
 
                     Spacer()
 
                     Text(detailsViewModel.formattedDate)
-                        .font(.system(size: 16))
+                        .font(.custom("Overpass-Medium", size: 16))
                 }
                 .foregroundColor(.white)
                 .padding(.horizontal, 37)

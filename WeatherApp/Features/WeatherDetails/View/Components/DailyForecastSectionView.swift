@@ -16,7 +16,7 @@ struct DailyForecastSectionView: View {
 
             HStack {
                 Text("Next Forecast")
-                    .font(.system(size: 22, weight: .bold))
+                    .font(.custom("Overpass-Bold", size: 23))
                     .foregroundColor(.white)
 
                 Spacer()
@@ -48,7 +48,7 @@ struct DailyForecastSectionView: View {
                     .foregroundColor(.white)
 
                 Text("AccuWeather")
-                    .font(.system(size: 18, weight: .medium))
+                    .font(.custom("Overpass-Bold", size: 23))
                     .foregroundColor(.white.opacity(0.9))
             }
             .padding(.bottom, 24)

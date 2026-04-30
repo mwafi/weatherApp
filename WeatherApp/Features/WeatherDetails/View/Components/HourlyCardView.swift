@@ -19,7 +19,7 @@ struct HourlyCardView: View {
 
                     VStack(spacing: 18) {
                         Text(item.temp)
-                            .font(.system(size: 18, weight: .medium))
+                            .font(.custom("Overpass-Medium", size: 16))
                             .foregroundColor(.white)
 
                         Image(item.icon)
@@ -28,7 +28,7 @@ struct HourlyCardView: View {
                             .frame(width: 50, height: 50)
 
                         Text(item.time)
-                            .font(.system(size: 16, weight: .medium))
+                            .font(.custom("Overpass-Medium", size: 16))
                             .foregroundColor(.white)
                     }
                     .frame(width: 75, height: 165)

@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SwiftUI
 
 struct ForecastReportButtonView: View {
     @ObservedObject var viewModel: WeatherViewModel

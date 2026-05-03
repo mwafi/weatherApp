@@ -4,9 +4,6 @@
 //
 //  Created by Mohammed Hassanien on 28/04/2026.
 //
-
-import SwiftUI
-
 import SwiftUI
 
 struct ConfirmLocation: View {

@@ -17,13 +17,11 @@ struct NotificationsOverlayView: View {
                 .fill(.ultraThinMaterial)
                 .ignoresSafeArea()
                 .onTapGesture {
-                    withAnimation(.easeInOut(duration: 0.25)) {
                         isPresented = false
-                    }
+                    
                 }
 
             NotificationsSheetView()
-                .transition(.move(edge: .bottom))
         }
         .ignoresSafeArea()
     }

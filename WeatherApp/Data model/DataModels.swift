@@ -93,3 +93,9 @@ struct HourlyForecastItem: Identifiable {
     let icon: String
     let time: String
 }
+
+struct WeatherCondition {
+    let text: String
+    let homeImageName: String
+    let detailsImageName: String
+}

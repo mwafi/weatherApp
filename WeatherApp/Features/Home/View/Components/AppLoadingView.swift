@@ -33,6 +33,7 @@ struct AppLoadingView: View {
                             .repeatForever(autoreverses: true),
                             value: moveCloud
                         )
+                        .accessibilityIdentifier("loadingCloudImage")
 
                     HStack(spacing: 16) {
                         RainDrop(delay: 0.0)
@@ -40,22 +41,24 @@ struct AppLoadingView: View {
                         RainDrop(delay: 0.4)
                     }
                     .offset(y: 72)
+                    .accessibilityIdentifier("loadingRainDrops")
                 }
                 .frame(width: 220, height: 210)
 
                 Text("Loading weather...")
                     .font(.custom("Overpass-Bold", size: 18))
                     .foregroundColor(.white)
+                    .accessibilityIdentifier("loadingWeatherText")
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .ignoresSafeArea()
+        .accessibilityIdentifier("appLoadingView")
         .onAppear {
             moveCloud = true
         }
     }
 }
-
 struct RainDrop: View {
     @State private var isAnimating = false
     let delay: Double

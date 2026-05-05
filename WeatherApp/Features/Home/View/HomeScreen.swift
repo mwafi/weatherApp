@@ -32,34 +32,42 @@ struct HomeScreen: View {
 
                     case .idle:
                         loadingStateView()
+                            .accessibilityIdentifier("weatherLoadingStateView")
 
                     case .loading:
                         loadingStateView()
+                            .accessibilityIdentifier("weatherLoadingStateView")
 
                     case .success(let ui):
                         successStateView(ui: ui)
+                            .accessibilityIdentifier("weatherSuccessStateView")
 
                     case .failure(let message):
                         errorStateView(message: message)
+                            .accessibilityIdentifier("weatherErrorStateView")
                     }
 
                     Spacer()
 
-                    if case .success = viewModel.state {
-                        ForecastReportButtonView(viewModel: viewModel)
-                    }
+//                    if case .success = viewModel.state {
+//                    
+//                    }
                 }
+                .accessibilityIdentifier("homeMainContent")
 
                 if showNotifications {
                     NotificationsOverlayView(isPresented: $showNotifications)
                         .zIndex(1000)
+                        .accessibilityIdentifier("notificationsOverlayView")
                 }
 
                 if showAppLoading {
                     AppLoadingView()
                         .zIndex(2000)
+                        .accessibilityIdentifier("appLoadingOverlay")
                 }
             }
+            .accessibilityIdentifier("homeScreen")
             .task {
                 guard !didLoadInitialWeather else { return }
                 didLoadInitialWeather = true
@@ -90,10 +98,11 @@ struct HomeScreen: View {
                 conditionText: "Cloudy",
                 windText: "10 km/h",
                 humidityText: "54 %",
-                isLoading: false
+                isLoading: true
             )
         }
         .redacted(reason: .placeholder)
+        .allowsHitTesting(false)
     }
 
     private func successStateView(ui: WeatherUIModel) -> some View {
@@ -108,6 +117,8 @@ struct HomeScreen: View {
                 humidityText: ui.humidity,
                 isLoading: false
             )
+            
+            ForecastReportButtonView(viewModel: viewModel)
         }
     }
 
@@ -116,12 +127,14 @@ struct HomeScreen: View {
             Image(systemName: "exclamationmark.triangle.fill")
                 .font(.system(size: 42))
                 .foregroundColor(.white)
+                .accessibilityIdentifier("weatherErrorIcon")
 
             Text(message)
                 .font(.custom("Overpass-Bold", size: 16))
                 .foregroundColor(.white)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 24)
+                .accessibilityIdentifier("weatherErrorMessageText")
 
             Button {
                 Task {
@@ -140,10 +153,10 @@ struct HomeScreen: View {
                     .clipShape(RoundedRectangle(cornerRadius: 16))
             }
             .buttonStyle(.plain)
+            .accessibilityIdentifier("tryAgainButton")
         }
     }
 }
-
 #Preview {
     HomeScreen()
 }

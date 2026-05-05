@@ -18,12 +18,14 @@ struct ForecastReportButtonView: View {
                 Text("Forecast report")
                     .font(.custom("Overpass-Bold", size: 17))
                     .foregroundColor(Color(red: 0.29, green: 0.33, blue: 0.50))
+                    .accessibilityIdentifier("forecastReportText")
 
                 Image("up (6)")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 24, height: 24)
                     .rotationEffect(.degrees(180))
+                    .accessibilityIdentifier("forecastReportIcon")
             }
             .frame(width: 170, height: 56)
             .background(
@@ -33,6 +35,7 @@ struct ForecastReportButtonView: View {
             )
         }
         .buttonStyle(.plain)
+        .accessibilityIdentifier("forecastReportButton")
     }
 }
 

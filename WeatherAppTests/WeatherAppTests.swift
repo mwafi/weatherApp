@@ -11,106 +11,64 @@ import XCTest
 final class WeatherServiceTests: XCTestCase {
 
     func testFetchWeatherSuccess() async throws {
-        let json = """
-        {
-          "latitude": 52.52,
-          "longitude": 13.4,
-          "generationtime_ms": 0.05078315734863281,
-          "utc_offset_seconds": 0,
-          "timezone": "GMT",
-          "timezone_abbreviation": "GMT",
-          "elevation": 38,
-          "current": {
-            "time": "2026-04-28T02:00",
-            "temperature_2m": 6.1,
-            "wind_speed_10m": 12.3,
-            "weather_code": 2,
-            "relative_humidity_2m": 47
-          },
-          "hourly": {
-            "time": ["2026-04-28T02:00"],
-            "temperature_2m": [6.1],
-            "wind_speed_10m": [12.3],
-            "weather_code": [2],
-            "relative_humidity_2m": [47]
-          },
-          "daily": {
-            "time": ["2026-04-28"],
-            "weather_code": [2],
-            "temperature_2m_max": [12.0],
-            "temperature_2m_min": [4.0]
-          }
-        }
-        """.data(using: .utf8)!
-
         let mockSession = MockURLSession()
-        mockSession.data = json
-        mockSession.response = HTTPURLResponse(
-            url: URL(string: "https://api.open-meteo.com")!,
-            statusCode: 200,
-            httpVersion: nil,
-            headerFields: nil
-        )
+        mockSession.data = WeatherTestFixtures.validWeatherJSON
+        mockSession.response = WeatherTestFixtures.successHTTPResponse()
 
         let service = WeatherService(session: mockSession)
 
-        let result = try await service.fetchWeather(lat: 52.52, lon: 13.4)
+        let result = try await service.fetchWeather(
+            lat: WeatherTestFixtures.latitude,
+            lon: WeatherTestFixtures.longitude
+        )
 
-        XCTAssertEqual(result.current?.temperature_2m, 6.1)
-        XCTAssertEqual(result.current?.wind_speed_10m, 12.3)
-        XCTAssertEqual(result.current?.weather_code, 2)
-        XCTAssertEqual(result.current?.relative_humidity_2m, 47)
+        XCTAssertEqual(result.current?.temperature_2m, WeatherTestFixtures.temperature)
+        XCTAssertEqual(result.current?.wind_speed_10m, WeatherTestFixtures.windSpeed)
+        XCTAssertEqual(result.current?.weather_code, WeatherTestFixtures.weatherCode)
+        XCTAssertEqual(result.current?.relative_humidity_2m, WeatherTestFixtures.humidity)
 
-        XCTAssertEqual(result.hourly?.temperature_2m.first, 6.1)
-        XCTAssertEqual(result.hourly?.wind_speed_10m.first, 12.3)
-        XCTAssertEqual(result.hourly?.weather_code.first, 2)
-        XCTAssertEqual(result.hourly?.relative_humidity_2m.first, 47)
+        XCTAssertEqual(result.hourly?.temperature_2m.first, WeatherTestFixtures.temperature)
+        XCTAssertEqual(result.hourly?.wind_speed_10m.first, WeatherTestFixtures.windSpeed)
+        XCTAssertEqual(result.hourly?.weather_code.first, WeatherTestFixtures.weatherCode)
+        XCTAssertEqual(result.hourly?.relative_humidity_2m.first, WeatherTestFixtures.humidity)
 
-        XCTAssertEqual(result.daily?.temperature_2m_max.first, 12.0)
-        XCTAssertEqual(result.daily?.temperature_2m_min.first, 4.0)
-        XCTAssertEqual(result.daily?.weather_code.first, 2)
+        XCTAssertEqual(result.daily?.temperature_2m_max.first, WeatherTestFixtures.maxTemperature)
+        XCTAssertEqual(result.daily?.temperature_2m_min.first, WeatherTestFixtures.minTemperature)
+        XCTAssertEqual(result.daily?.weather_code.first, WeatherTestFixtures.weatherCode)
     }
 
     func testFetchWeatherBadServerResponseThrowsError() async {
         let mockSession = MockURLSession()
         mockSession.data = Data()
-        mockSession.response = HTTPURLResponse(
-            url: URL(string: "https://api.open-meteo.com")!,
-            statusCode: 500,
-            httpVersion: nil,
-            headerFields: nil
-        )
+        mockSession.response = WeatherTestFixtures.serverErrorHTTPResponse()
 
         let service = WeatherService(session: mockSession)
 
         do {
-            _ = try await service.fetchWeather(lat: 52.52, lon: 13.4)
-            XCTFail("Expected badServerResponse error")
+            _ = try await service.fetchWeather(
+                lat: WeatherTestFixtures.latitude,
+                lon: WeatherTestFixtures.longitude
+            )
+
+            XCTFail("Expected bad server response error")
         } catch {
             XCTAssertNotNil(error)
         }
     }
 
     func testFetchWeatherInvalidJSONThrowsError() async {
-        let invalidJSON = """
-        {
-          "current": "invalid"
-        }
-        """.data(using: .utf8)!
-
         let mockSession = MockURLSession()
-        mockSession.data = invalidJSON
-        mockSession.response = HTTPURLResponse(
-            url: URL(string: "https://api.open-meteo.com")!,
-            statusCode: 200,
-            httpVersion: nil,
-            headerFields: nil
-        )
+        mockSession.data = WeatherTestFixtures.invalidWeatherJSON
+        mockSession.response = WeatherTestFixtures.successHTTPResponse()
 
         let service = WeatherService(session: mockSession)
 
         do {
-            _ = try await service.fetchWeather(lat: 52.52, lon: 13.4)
+            _ = try await service.fetchWeather(
+                lat: WeatherTestFixtures.latitude,
+                lon: WeatherTestFixtures.longitude
+            )
+
             XCTFail("Expected decoding error")
         } catch {
             XCTAssertNotNil(error)
@@ -124,7 +82,11 @@ final class WeatherServiceTests: XCTestCase {
         let service = WeatherService(session: mockSession)
 
         do {
-            _ = try await service.fetchWeather(lat: 52.52, lon: 13.4)
+            _ = try await service.fetchWeather(
+                lat: WeatherTestFixtures.latitude,
+                lon: WeatherTestFixtures.longitude
+            )
+
             XCTFail("Expected network error")
         } catch {
             XCTAssertNotNil(error)

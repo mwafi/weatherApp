@@ -14,45 +14,48 @@ struct HomeHeaderView: View {
         HStack {
             NavigationLink {
                 SearchView(
-               cityName: $cityName,
-                 viewModel: viewModel
-               )
+                    cityName: $cityName,
+                    viewModel: viewModel
+                )
             } label: {
                 HStack(spacing: 8) {
                     Image("map")
                         .resizable()
                         .frame(width: 16, height: 16)
+                        .accessibilityIdentifier("cityLocationIcon")
 
                     Text(cityName)
                         .font(.custom("Overpass-Bold", size: 23))
-                    
                         .foregroundColor(.white)
+                        .accessibilityIdentifier("homeCityNameText")
 
                     Image("opt")
                         .resizable()
                         .frame(width: 24, height: 24)
+                        .accessibilityIdentifier("cityDropdownIcon")
                 }
             }
             .buttonStyle(.plain)
+            .accessibilityIdentifier("citySearchNavigationButton")
 
             Spacer()
 
             Button {
-               
-                    showNotifications = true
-               
+                showNotifications = true
             } label: {
                 Image("Group 652")
                     .resizable()
                     .frame(width: 24, height: 24)
+                    .accessibilityIdentifier("notificationsIcon")
             }
             .buttonStyle(.plain)
+            .accessibilityIdentifier("notificationsButton")
         }
         .padding(.horizontal, 24)
         .padding(.top, 20)
+        .accessibilityIdentifier("homeHeaderView")
     }
 }
-
 #Preview {
     NavigationStack {
         ZStack {
